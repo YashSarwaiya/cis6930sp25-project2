@@ -5,7 +5,7 @@
 
 ---
 
-## 📝 Assignment Description
+## Assignment Description
 
 This project redacts sensitive information from PDF documents including names, named entities (NER), and coreferent phrases. The redactor uses:
 
@@ -17,7 +17,7 @@ Redacted files are saved in the output folder and statistics of redactions are s
 
 ---
 
-## 📦 Setup & Installing Models
+## Setup & Installing Models
 
 ```bash
 # Create project folder and initialize environment
@@ -39,7 +39,7 @@ uv pip install https://github.com/explosion/spacy-experimental/releases/download
 
 ---
 
-## ▶️ How to Run
+## How to Run
 
 ### Redact with names and entities:
 
@@ -55,7 +55,7 @@ uv run python main.py   --input "tests/test1in.pdf"   --output redacted_pdfs   -
 
 ---
 
-## 📁 Example Folder Structure
+## Example Folder Structure
 
 ```
 cis6930sp25-project2/
@@ -72,7 +72,7 @@ cis6930sp25-project2/
 
 ---
 
-## 🧪 Example Stats Output (`stats.tsv`)
+## Example Stats Output (`stats.tsv`)
 
 ```
 test1in.pdf	0:100x200	Rick Scott	10	Name
@@ -82,7 +82,7 @@ test1in.pdf	0:150x260	He	2	Coref
 
 ---
 
-## 🛠️ Features and Functions
+## Features and Functions
 
 ### `main.py`
 
@@ -94,7 +94,7 @@ test1in.pdf	0:150x260	He	2	Coref
 
 ---
 
-## 🐛 Bugs and Assumptions
+## Bugs and Assumptions
 
 - Coreference resolution only works **on the UF internal network**. On local machines, it fails due to hostname resolution error.
 - spaCy entity detection may miss edge cases if tokenization fails on complex punctuation.
