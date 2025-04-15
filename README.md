@@ -102,9 +102,3 @@ test1in.pdf	0:150x260	He	2	Coref
 - Redactions are based on text-level matches, and not fuzzy-matched.
 
 ---
-
-## 📹 Optional Demo
-
-_A demo video walkthrough will be linked here if available._
-
----
