@@ -1,3 +1,7 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "de-project"
 version = "0.1.0"
@@ -8,6 +12,7 @@ dependencies = [
     "numpy==1.26.4",
     "pip>=25.0.1",
     "pymupdf>=1.25.5",
+    "pytest>=8.3.5",
     "requests>=2.32.3",
     "setuptools>=78.1.0",
     "spacy>=3.7.5",
@@ -16,3 +21,13 @@ dependencies = [
     "tqdm>=4.67.1",
     "wheel>=0.45.1",
 ]
+
+[project.urls]
+Task = "https://ufdatastudio.com/cis6930sp25/projects/2"
+repository = "https://github.com/YashSarwaiya/cis6930sp25-project2"
+
+[tool.setuptools]
+py-modules = []
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
