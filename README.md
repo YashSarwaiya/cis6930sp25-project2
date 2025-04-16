@@ -28,18 +28,22 @@ source .venv/bin/activate
 
 # Add dependencies
 uv add --no-cache pip setuptools wheel
-uv add pymupdf spacy spacy-experimental requests tqdm
-uv add 'thinc[torch]'
+uv add pymupdf requests tqdm
+uv pip install https://github.com/explosion/spacy-experimental/releases/download/v0.6.1/en_coreference_web_trf-3.4.0a2-py3-none-any.whl
 
-# Download models
 uv run -m spacy download en_core_web_sm
 uv run -m spacy download en_core_web_trf
-uv pip install https://github.com/explosion/spacy-experimental/releases/download/v0.6.1/en_coreference_web_trf-3.4.0a2-py3-none-any.whl
 ```
 
 ---
 
 ## How to Run
+
+### Run Tests
+
+```bash
+uv run python -m pytest -v
+```
 
 ### Redact with names and entities:
 

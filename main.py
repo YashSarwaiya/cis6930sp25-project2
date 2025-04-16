@@ -6,6 +6,9 @@ import fitz  # PyMuPDF
 import spacy
 import requests
 
+nlp = spacy.load("en_core_web_sm")
+nlp_coref = spacy.load('en_coreference_web_trf')
+
 # Ensure Python 3.10 or later is used.
 if sys.version_info < (3, 10):
     sys.exit("Error: Python 3.10 or higher is required for this project.")
@@ -42,33 +45,22 @@ def process_entities(page, file_name, nlp, redact_all, stats_entries, page_no):
     return
 
 def process_coref(page, file_name, stats_entries, page_no):
+    """Send the page text to the coreference resolution API to obtain additional tokens
+       that should be redacted; then add redaction annotations for each token returned."""
     text = page.get_text()
-    url = "http://gpu002.cm.cluster:65535/resolve_coref"
-    headers = {"Content-Type": "application/json"}
-    payload = {"text": text}
+    data = nlp_coref(text)
+    for cluster in data.spans.items():
+        for token in cluster[1]:
+            token = str(token).strip()
+            if not token:
+                continue
+            rects = page.search_for(token)
+            for rect in rects:
+                page.add_redact_annot(rect, fill=(0, 0, 0))
+                loc = f"{page_no}:{int(rect.x0)}x{int(rect.y0)}"
+                stats_entries.append(f"{file_name}\t{loc}\t{token}\t{len(token)}\tCoref")
 
-    try:
-        response = requests.post(url, json=payload, headers=headers, timeout=10)
-        if response.status_code == 200:
-            data = response.json()
-            mapping = data.get("coreference_mapping", [])
-            for cluster in mapping:
-                for token in cluster.values():
-                    token = token.strip()
-                    if not token:
-                        continue
-                    rects = page.search_for(token)
-                    for rect in rects:
-                        page.add_redact_annot(rect, fill=(0, 0, 0))
-                        loc = f"{page_no}:{int(rect.x0)}x{int(rect.y0)}"
-                        stats_entries.append(f"{file_name}\t{loc}\t{token}\t{len(token)}\tCoref")
-        else:
-            print(f"Coref API returned status {response.status_code} for file {file_name} on page {page_no}", file=sys.stderr)
-    except Exception as e:
-        print(f"Error during coref resolution for file {file_name} on page {page_no}: {e}", file=sys.stderr)
-    return
-
-def process_pdf(file_path, output_dir, sensitive_names, nlp, redact_all_entities, do_coref, stats_entries):
+def process_pdf(file_path, output_dir, sensitive_names, redact_all_entities, do_coref, stats_entries):
     """Open the PDF file, process each page for redaction based on names, entities, and coreference,
        then save the redacted document to the output directory."""
     try:
@@ -143,17 +135,11 @@ def main():
     if not input_files:
         sys.exit("Error: No input files found; please check your --input parameter.")
 
-    # Load the spaCy model for NER (ensure you have installed en_core_web_sm)
-    try:
-        nlp = spacy.load("en_core_web_sm")
-    except Exception as e:
-        sys.exit(f"Error loading spaCy model 'en_core_web_sm': {e}")
-
     # Stats will be recorded as a list of TSV-formatted strings.
     stats_entries = []
     # Process each input PDF file.
     for file_path in input_files:
-        process_pdf(file_path, args.output, args.names, nlp, args.entities, args.coref, stats_entries)
+        process_pdf(file_path, args.output, args.names, args.entities, args.coref, stats_entries)
 
     # Write the stats output.
     write_stats(args.stats, stats_entries)
