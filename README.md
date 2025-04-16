@@ -68,7 +68,9 @@ cis6930sp25-project2/
 ├── README.md
 ├── COLLABORATORS.md
 ├── tests/
-│   ├── test1in.pdf
+│   ├── test_coref.pdf
+│   ├── test_ner.pdf
+│   └── test_token.pdf
 ├── redacted_pdfs/
 │   └── test1in.pdf
 └── .python-version
