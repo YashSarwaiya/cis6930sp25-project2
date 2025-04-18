@@ -78,16 +78,6 @@ cis6930sp25-project2/
 
 ---
 
-## Example Stats Output (`stats.tsv`)
-
-```
-test1in.pdf	0:100x200	Rick Scott	10	Name
-test1in.pdf	0:130x240	Scott	5	Entity
-test1in.pdf	0:150x260	He	2	Coref
-```
-
----
-
 ## Features and Functions
 
 ### `main.py`
