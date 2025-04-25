@@ -48,13 +48,13 @@ uv run python -m pytest -v
 ### Redact with names and entities:
 
 ```bash
-uv run python main.py   --input "tests/test1in.pdf"   --output redacted_pdfs   --names "Bill Carter" "Rick Scott"   --entities   --stats redacted_pdfs/stats.tsv
+uv run python main.py   --input "resources/test1in.pdf"   --output redacted_pdfs   --names "Bill Carter" "Rick Scott"   --entities   --stats redacted_pdfs/stats.tsv
 ```
 
 ### Redact with coreference (requires UF CM cluster):
 
 ```bash
-uv run python main.py   --input "tests/test1in.pdf"   --output redacted_pdfs   --coref   --stats redacted_pdfs/stats.tsv
+uv run python main.py   --input "resources/test1in.pdf"   --output redacted_pdfs   --coref   --stats redacted_pdfs/stats.tsv
 ```
 
 ---
